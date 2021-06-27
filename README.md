@@ -2,6 +2,9 @@
 ### Rough outline
 
 - figure out webpack build step
+  - we need to build the index and scripts and styles
+  - make sure Jest is setup (and Babel too!)
+  - make sure we have linting
 
 - represent grid in the script
 - create a grid in the HTML
