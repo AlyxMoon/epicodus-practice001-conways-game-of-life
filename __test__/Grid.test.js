@@ -1,4 +1,3 @@
-import { expect, it } from '@jest/globals'
 import Cell from '../src/lib/Cell.class.js'
 import Grid from '../src/lib/Grid.class.js'
 
@@ -35,13 +34,79 @@ describe('class Grid', () => {
     }
   })
 
-  // describe('function checkStatusOfCell()', () => {
-  //   it('when all of a cells neighbors are dead, it will be dead', () => {
-  //     const grid = new Grid()
+  describe('function getNeighboringCells()', () => {
+    const aliveCell = new Cell(true)
+    const deadCell = new Cell(false)
 
-  //     const [row, col] = [1, 1]
-  //     const cellStatus = grid.checkStatusOfCell(row, col)
-  //     expect(cellStatus).toEqual(false)
-  //   })
-  // })
+    it('should get neighboring cells', () => {
+      const grid = new Grid(false)
+
+      const [row, col] = [1, 1]
+
+      grid.cells[row - 1][col].alive = true
+      grid.cells[row - 1][col - 1].alive = true
+      grid.cells[row + 1][col + 1].alive = true
+
+      const neighboringCells = grid.getNeighboringCells(row, col)
+      expect(neighboringCells).toEqual([
+        aliveCell, 
+        aliveCell, 
+        deadCell, 
+        deadCell, 
+        deadCell, 
+        deadCell, 
+        deadCell, 
+        aliveCell,
+      ])
+    })
+
+    it('should get neighboring cells when in top left corner', () => {
+      const grid = new Grid(false)
+
+      const [row, col] = [0, 0]
+      grid.cells[1][0].alive = true
+
+      const neighboringCells = grid.getNeighboringCells(row, col)
+      expect(neighboringCells).toEqual([
+        deadCell, 
+        aliveCell, 
+        deadCell,
+      ])
+    })
+
+    it('should get neighboring cells when in the bottom right corner', () => {
+      const grid = new Grid(false)
+
+      const [row, col] = [5, 5]
+      grid.cells[5][4].alive = true
+
+      const neighboringCells = grid.getNeighboringCells(row, col)
+      expect(neighboringCells).toEqual([
+        deadCell, 
+        deadCell,
+        aliveCell, 
+      ])
+    })
+  })
+
+  describe('function checkStatusOfCell()', () => {
+    it('when all of a cells neighbors are dead, it will be dead', () => {
+      const grid = new Grid(false)
+
+      const [row, col] = [1, 1]
+      const cellStatus = grid.checkStatusOfCell(row, col)
+      expect(cellStatus).toEqual(false)
+    })
+
+    // it('when a dead cell has three live neighbors, it will become alive', () => {
+    //   const grid = new Grid(false)
+    //   const [row, col] = [1, 1]
+
+    //   grid.cells[row - 1][col].alive = true
+    //   grid.cells[row - 1][col - 1].alive = true
+    //   grid.cells[row + 1][col + 1].alive = true
+    //   const cellStatus = grid.checkStatusOfCell(row, col)
+    //   expect(cellStatus).toEqual(true)
+    // })
+  })
 })
