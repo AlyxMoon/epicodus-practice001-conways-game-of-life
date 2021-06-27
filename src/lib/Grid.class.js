@@ -25,7 +25,6 @@ export default class Grid {
   getNeighboringCells (row, col) {
     const cells = []
 
-
     for (let iRow = row - 1; iRow <= row + 1; iRow++) {
       for (let iCol = col - 1; iCol <= col + 1; iCol++) {
         if (
@@ -44,18 +43,24 @@ export default class Grid {
     return cells
   }
 
+  getCountAliveNeighborCells(row, col) {
+    return this.getNeighboringCells(row, col)
+      .filter((cell) => cell.alive)
+      .length
+  }
+
   checkStatusOfCell (row, col) {
     // need to grab every neighboring cell
     // check that exactly three are alive
     // and that current cell is dead
     // then return true
-
-    // const neighboringCells = this.getNeighboringCells(row, col)
     
+    const aliveNeighbors = this.getCountAliveNeighborCells(row, col)
+    const currentlyDead = !this.cells[row][col].alive
 
-    // if (false) {
-    //   return true
-    // }
+    if (currentlyDead && aliveNeighbors === 3) {
+      return true
+    }
 
     return false
   }

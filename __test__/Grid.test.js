@@ -89,6 +89,19 @@ describe('class Grid', () => {
     })
   })
 
+  describe('function getCountAliveNeighborCells', () => {
+    it('should properly count nearby alive cells', () => {
+      const grid = new Grid(false)
+
+      const [row, col] = [1, 1]
+      grid.cells[row - 1][col].alive = true
+      grid.cells[row - 1][col - 1].alive = true
+      grid.cells[row + 1][col + 1].alive = true
+
+      expect(grid.getCountAliveNeighborCells(row, col)).toEqual(3)
+    })
+  })
+
   describe('function checkStatusOfCell()', () => {
     it('when all of a cells neighbors are dead, it will be dead', () => {
       const grid = new Grid(false)
@@ -98,15 +111,15 @@ describe('class Grid', () => {
       expect(cellStatus).toEqual(false)
     })
 
-    // it('when a dead cell has three live neighbors, it will become alive', () => {
-    //   const grid = new Grid(false)
-    //   const [row, col] = [1, 1]
+    it('when a dead cell has three live neighbors, it will become alive', () => {
+      const grid = new Grid(false)
+      const [row, col] = [1, 1]
 
-    //   grid.cells[row - 1][col].alive = true
-    //   grid.cells[row - 1][col - 1].alive = true
-    //   grid.cells[row + 1][col + 1].alive = true
-    //   const cellStatus = grid.checkStatusOfCell(row, col)
-    //   expect(cellStatus).toEqual(true)
-    // })
+      grid.cells[row - 1][col].alive = true
+      grid.cells[row - 1][col - 1].alive = true
+      grid.cells[row + 1][col + 1].alive = true
+      const cellStatus = grid.checkStatusOfCell(row, col)
+      expect(cellStatus).toEqual(true)
+    })
   })
 })
